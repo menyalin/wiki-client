@@ -18,21 +18,19 @@ type AppPropsWithLayout = AppProps & {
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  // const [queryClient] = React.useState(() => new QueryClient())
+  const [queryClient] = React.useState(() => new QueryClient())
 
-  const queryClient = new QueryClient()
-
-  return getLayout(
+  return (
     <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <QueryClientProvider client={queryClient} contextSharing={true}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
           <ReactQueryDevtools initialIsOpen={true} />
         </Hydrate>
       </QueryClientProvider>
-    </>,
+    </>
   )
 }
