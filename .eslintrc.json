@@ -3,6 +3,7 @@
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
     "semi": ["error", "never"],
-    "no-extra-semi": "error"
+    "no-extra-semi": "error",
+    "object-curly-spacing": ["error", "always"]
   }
 }
