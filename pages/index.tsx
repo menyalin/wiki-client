@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import React from 'react'
 import { ReactElement } from 'react'
 import { MainLayout } from '../layouts/main.layout'
 import type { NextPageWithLayout } from './_app'

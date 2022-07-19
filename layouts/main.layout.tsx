@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import AppMainNav from '../components/mainNav'
@@ -8,19 +7,19 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
-const StyledContainer = styled(Container)`
-  background-color: blanchedalmond;
-`
-
 const MainLayout = ({ children }: LayoutProps) => (
   <>
     <AppHeader />
-    <StyledContainer>
-      <Box display="grid" gridTemplateColumns={{ xs: '1fr', md: '1fr 3fr' }}>
+    <Container>
+      <Box
+        display="grid"
+        gridTemplateColumns={{ xs: '1fr', md: '1fr 3fr' }}
+        gap={2}
+      >
         <AppMainNav />
         {children}
       </Box>
-    </StyledContainer>
+    </Container>
   </>
 )
 
