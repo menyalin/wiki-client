@@ -30,7 +30,12 @@ const ArticlePage = (): React.ReactNode => {
     }
   )
   if (!article) return <div>Запрашиваемая статья не найдена</div>
-  if (isError) return <div>Error: {error}</div>
+  if (isError)
+    return (
+      <div>
+        <>Error: {error}</>{' '}
+      </div>
+    )
 
   return (
     <>

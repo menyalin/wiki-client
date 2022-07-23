@@ -14,9 +14,10 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Slide from '@mui/material/Slide'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
+import { useRouter } from 'next/router'
 
 const drawerWidth = 340
-const navItems = ['Home', 'About', 'Contact']
+const navItems = [{ name: 'Home', path: 'admin' }]
 
 interface Props {
   children: React.ReactElement
@@ -35,6 +36,7 @@ function HideOnScroll(props: Props) {
 
 export default function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false)
+  const router = useRouter()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -48,9 +50,12 @@ export default function DrawerAppBar() {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
+          <ListItem key={item.path} disablePadding>
+            <ListItemButton
+              sx={{ textAlign: 'center' }}
+              onClick={() => router.push(item.path)}
+            >
+              <ListItemText primary={item.name} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -81,8 +86,12 @@ export default function DrawerAppBar() {
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               {navItems.map((item) => (
-                <Button key={item} sx={{ color: '#fff' }}>
-                  {item}
+                <Button
+                  key={item.path}
+                  sx={{ color: '#fff' }}
+                  onClick={() => router.push(item.path)}
+                >
+                  {item.name}
                 </Button>
               ))}
             </Box>

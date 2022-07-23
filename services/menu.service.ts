@@ -1,10 +1,12 @@
-import { AxiosResponse } from 'axios'
 import api from '../api'
+import { IMenuItem } from '../interfaces/MenuItem'
  
 class MenuService {
 
-  async getMenu():Promise<AxiosResponse>{
-    const { data } = await api.get<AxiosResponse>('groups')
+  async getMenu():Promise<IMenuItem[]>{
+    const { data } = await api.get<IMenuItem[]>('menus')
+    console.log(data)
+    
     return data  
   }
 }

@@ -13,7 +13,7 @@ const article = (
     {(context) => (
       <ListItemButton
         key={key}
-        sx={{ pl: level * 4 }}
+        sx={{ pl: 1 + level * 4 }}
         selected={context?.selectedId === item._id}
         onClick={() =>
           item?.slug && context?.selectHandler(item._id, item.slug)
@@ -32,7 +32,7 @@ const group = (item: IMenuItem, level: number): React.ReactElement => {
         <React.Fragment key={item._id}>
           <ListItemButton
             onClick={() => context?.toggleHandler(item._id)}
-            sx={{ pl: level * 4 }}
+            sx={{ pl: 1 + level * 3 }}
           >
             <ListItemText primary={item.title} />
             {context?.openedIds.includes(item._id) ? (
@@ -47,9 +47,11 @@ const group = (item: IMenuItem, level: number): React.ReactElement => {
             unmountOnExit
           >
             <List component="div" disablePadding>
-              {item.subItems?.map((child, idx) => (
-                <MenuItem item={child} key={idx} level={level + 1} />
-              ))}
+              {item.subItems
+                ?.sort((a, b) => a.listIndex - b.listIndex)
+                .map((child, idx) => (
+                  <MenuItem item={child} key={idx} level={level + 1} />
+                ))}
             </List>
           </Collapse>
         </React.Fragment>
