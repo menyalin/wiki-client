@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react'
 import { useFormik } from 'formik'
 import {
-  Autocomplete,
   Checkbox,
+  FormControl,
   FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from '@mui/material'
-import { IGroup } from '../../interfaces/Group'
+import { IGroup, IGroupWithoutId } from '../../interfaces/Group'
 
 interface IFormProps {
   groups: IGroup[]
   submitHandler: () => void
   setValidationStatus: (isValid: boolean) => void
-  setFormState: (group: IGroup) => void
+  formState: IGroupWithoutId
+  setFormState: (group: Omit<IGroup, '_id'>) => void
+  editedItem: string | null
 }
 interface IValidateErrors {
   title?: string
@@ -22,18 +27,15 @@ const GroupForm = ({
   groups,
   submitHandler,
   setValidationStatus,
+  formState,
   setFormState,
+  editedItem,
 }: IFormProps): React.ReactElement => {
   const formik = useFormik({
     initialErrors: {
       title: 'Название группы обязательно для заполнения',
     },
-    initialValues: {
-      title: '',
-      listIndex: 50,
-      published: true,
-      group: null,
-    },
+    initialValues: formState,
     validate(values): IValidateErrors {
       const errors: IValidateErrors = {}
       if (!values.title)
@@ -55,7 +57,6 @@ const GroupForm = ({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      {JSON.stringify(formik.values)}
       <TextField
         id="title"
         error={!!formik.errors.title && formik.touched.title}
@@ -82,32 +83,31 @@ const GroupForm = ({
         sx={{ marginBottom: '15px' }}
       />
 
-      <Autocomplete
-        fullWidth
-        onChange={(_e, val) => {
-          formik.setFieldValue('group', val?.id)
-        }}
-        options={groups?.map((i) => ({
-          id: i._id || '',
-          label: i.title,
-        }))}
-        getOptionLabel={(option) => option?.label}
-        renderOption={(props, option) => <li {...props}> {option.label} </li>}
-        isOptionEqualToValue={(option, value) => option?.id === value.id}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            id="group"
-            name={'group'}
-            label="Родитель"
-            variant="standard"
-            value={formik.values.group}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            sx={{ marginBottom: '15px' }}
-          />
-        )}
-      />
+      <FormControl sx={{ width: '100%' }} size="small" variant="standard">
+        <InputLabel id="demo-select-small">Родитель</InputLabel>
+        <Select
+          labelId="demo-select-small"
+          id="group"
+          name="group"
+          value={formik.values.group || ''}
+          label="Родитель"
+          onChange={formik.handleChange}
+          defaultValue={''}
+        >
+          <MenuItem value="">
+            <em>Отсутсвует</em>
+          </MenuItem>
+          {groups
+            .filter((i) => i._id !== editedItem)
+            .sort((a, b) => a.listIndex - b.listIndex)
+            .map((i) => (
+              <MenuItem value={i._id} key={i._id}>
+                {i.title}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
+
       <FormControlLabel
         label="Опубликовано"
         sx={{ marginBottom: '15px' }}

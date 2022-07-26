@@ -17,7 +17,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger'
 import { useRouter } from 'next/router'
 
 const drawerWidth = 340
-const navItems = [{ name: 'Home', path: 'admin' }]
+const navItems = [{ name: 'Admin', path: 'admin' }]
 
 interface Props {
   children: React.ReactElement
