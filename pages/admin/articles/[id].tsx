@@ -9,7 +9,7 @@ import { IGroup } from '../../../interfaces/Group'
 import groupService from '../../../services/group.service'
 import { IArticle, IArticleWithoutId } from '../../../interfaces/Article'
 import articleService from '../../../services/article.service'
-import { Alert, Snackbar } from '@mui/material'
+import { Alert, Button, Snackbar } from '@mui/material'
 
 interface IUpdateArticle {
   id: string
@@ -60,6 +60,26 @@ const EditArticlePage = () => {
           articles.splice(idx, 1, data)
           queryClient.setQueryData('allArticles', [...articles])
         } else queryClient.setQueryData('allArticles', [data])
+        router.push('/admin')
+      },
+      onError: (error: Error) => {
+        if (error && error?.message) {
+          setError(error.message)
+        }
+      },
+    }
+  )
+
+  const deleteArticleMutation = useMutation(
+    (id: string) => articleService.delete(id),
+    {
+      onSuccess: (data, variables) => {
+        const articles = queryClient.getQueryData<IArticle[]>('allArticles')
+        if (articles) {
+          queryClient.setQueryData('allArticles', [
+            ...articles.filter((i) => i._id !== variables),
+          ])
+        }
         router.push('/admin')
       },
       onError: (error: Error) => {
@@ -121,7 +141,15 @@ const EditArticlePage = () => {
           setValidationStatus={setValidationStatus}
         />
       )}
-      
+      <Button
+        color="error"
+        variant="contained"
+        sx={{ mt: '15px' }}
+        size="small"
+        onClick={() => deleteArticleMutation.mutate(articleId)}
+      >
+        Удалить статью
+      </Button>
     </>
   )
 }

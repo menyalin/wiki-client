@@ -50,6 +50,18 @@ class ArticleService {
     }
   }
 
+  async delete(id: string): Promise<void> {
+    try {
+      await api.delete(`articles/${id}`)
+      return
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const error = err as AxiosError<{message: string}>
+        throw new Error(error.response?.data?.message)  
+      } else throw err 
+    }
+  }
+
 }
 
 export default new ArticleService()
