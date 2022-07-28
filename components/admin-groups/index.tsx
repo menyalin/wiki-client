@@ -5,6 +5,7 @@ import { IGroup } from '../../interfaces/Group'
 import { Box, Button, Stack } from '@mui/material'
 import GroupDialog from './groupDialog'
 import GroupTable from './groupTable'
+import { Typography } from '@mui/material'
 
 const Groups = (): React.ReactElement => {
   const [isOpen, setOpen] = useState(false)
@@ -26,6 +27,7 @@ const Groups = (): React.ReactElement => {
 
   return (
     <Box>
+      <Typography variant="h5">Группы:</Typography>
       <Stack direction="row">
         <Button size="small" onClick={addGroupHandler}>
           Создать группу

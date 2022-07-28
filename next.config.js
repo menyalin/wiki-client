@@ -1,10 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const removeImports = require('next-remove-imports')()
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+module.exports = (phase)=> {
+  return removeImports({
   reactStrictMode: true,
   swcMinify: true,
-  compiler: {
+  output: 'standalone',
+  compiler: {  
     styledComponents: true,
   },
+})
 }
-
-module.exports = nextConfig

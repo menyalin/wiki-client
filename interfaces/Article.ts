@@ -1,10 +1,12 @@
 export interface IArticle {
-  _id?: string,
+  _id: string,
   title: string,
   slug: string,
   description?: string,
+  published: boolean,
   listIndex: number,
   content: string,    
-  parent?: string | null,
+  group?: string | null,
 }
 
+export type IArticleWithoutId = Omit<IArticle, '_id'>
