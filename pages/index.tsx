@@ -1,4 +1,4 @@
-import { Divider, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import Head from 'next/head'
 import React from 'react'
 import { ReactElement } from 'react'
@@ -49,9 +49,11 @@ const Home: NextPageWithLayout = () => {
           {article.title}
         </Typography>
         <Divider />
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {article.content}
-        </ReactMarkdown>
+        <Box sx={{ maxWidth: '900px', overflowX: 'hidden' }}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {article.content}
+          </ReactMarkdown>
+        </Box>
       </ArticleWrapper>
     </>
   )

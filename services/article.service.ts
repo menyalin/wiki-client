@@ -10,6 +10,11 @@ class ArticleService {
     return data
   }
 
+  async searchByTerm(term=''):Promise<IArticle[]>{
+    if (!term) throw new Error('No term')
+    const { data } = await api.get<IArticle[]>(`/articles/?term=${term}`)
+    return data
+  }
   async getFirst():Promise<IArticle> {
     const { data } = await api.get<IArticle>(`/articles/first`)
     return data

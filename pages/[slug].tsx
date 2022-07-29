@@ -5,7 +5,7 @@ import { MainLayout } from '../layouts/main.layout'
 import { useQuery } from 'react-query'
 import articleService from '../services/article.service'
 import { IArticle } from '../interfaces/Article'
-import { Divider, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import styled from 'styled-components'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -53,9 +53,11 @@ const ArticlePage = (): React.ReactNode => {
           {article.title}
         </Typography>
         <Divider />
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {article.content}
-        </ReactMarkdown>
+        <Box sx={{ maxWidth: '800px' }}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {article.content}
+          </ReactMarkdown>
+        </Box>
       </ArticleWrapper>
     </>
   )
